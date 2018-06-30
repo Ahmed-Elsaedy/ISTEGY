@@ -20,3 +20,10 @@ The web app is developed using
 ******************************************************************************************
 The web application insures and validates products in stores, so that at any point of time 
 the count of a product in a store can not go beyond zero after ****** ADDING or DELETING or UPDATING ******* a Transaction
+
+********************************************************************************************
+
+To start using the application:
+* First change the connection string "DatabaseContext" found in web.config file
+* Update the database using Package Manager Console (Entity Framework) OR Run the included SQL File against a database
+
