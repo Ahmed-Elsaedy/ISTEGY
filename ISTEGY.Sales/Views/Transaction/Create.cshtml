@@ -1,0 +1,119 @@
+﻿@model ISTEGY.Sales.Models.Transaction
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm("Create", "Transaction", FormMethod.Post))
+{
+    <div>
+        <h4>Transaction</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col form-group">
+                @Html.LabelFor(model => model.TransactionDate, "TransactionDate", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.TextBox("TransactionDate", DateTime.Now, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TransactionDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col form-group">
+                @Html.LabelFor(model => model.Type, "Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EnumDropDownListFor(model => model.Type, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col form-group">
+                @Html.LabelFor(model => model.Store, "Store", htmlAttributes: new { id="storeL" ,@class = "control-label col-md-2" })
+                @Html.DropDownList("StoreId", ViewBag.Stores as IEnumerable<SelectListItem>
+                    ,"(Select Store...)", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StoreId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h4>Details</h4>
+    <p>
+        <div class="row">
+            <div class="col-4">
+                <div id="prods">
+                    <select id="select" class="form-control">
+                        <option value=""></option>
+                        <option value="1">Cheeze</option>
+                        <option value="2">Tea</option>
+                        <option value="3">Milk</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn" id="addBtn">Add Item</button>
+            </div>
+        </div>
+
+    </p>
+    <table id="details" class="table table-bordered ">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Options</th>
+        </tr>
+    </table>
+
+    <div class="row">
+
+        <div class="col">
+            <div class="mt-4">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<p class="mt-2">
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+@section Scritps{
+    <script>
+        $(document).ready(function () {
+            document.cIndex = 0;
+            $('#addBtn').click(function () {
+                var val = $('#select').val();
+                if (val) {
+                    $("#StoreId").attr("readonly", "readonly");
+                    var sel = $('#select :selected');
+                    var tr = $('<tr id="' + document.cIndex + '"></tr>');
+                    tr.attr('val', val);
+                    tr.attr('text', sel.text());
+                    tr.append("<td><input name='prods' type='hidden' value='" + sel.val() + "'>" + sel.text() + "</td>");
+                    tr.append("<td><input name='qnts' class='form-control' style='width: 150px;' type='number' value='1'></td>");
+                    tr.append("<td><button type='button' class='btn' onclick='remove(" + document.cIndex + ")'>Remove</button></td>")
+                    $('#details').append(tr);
+                    sel.remove();
+                    $('#select').val("");
+                    document.cIndex++;
+                }
+            });
+            $('#select,#addBtn').attr("disabled", "disabled");
+            $('#StoreId').on('change', function () {
+                $('#select').remove();
+                var url = "/Transaction/ProductsByStore?storeId=" + this.value;
+                $('#prods').load(url)
+                $('#addBtn').removeAttr("disabled");
+                $('#StoreId').hide();
+                $('#storeL').hide();
+            });
+        });
+        function remove(id) {
+            var tr = $('#' + id);
+            $('#select').append("<option value='" + tr.attr('val') + "'>" + tr.attr('text') + "</option>")
+            tr.remove();
+            document.cIndex--;
+        }
+
+        
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@Page.Title</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("head", required: false)
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group">
+                    @Html.ActionLink("Stores", "Index", "Store", null,new {
+                   @class = "list-group-item list-group-item-action" })
+
+                    @Html.ActionLink("Products", "Index", "Product", null,new {
+                  @class = "list-group-item list-group-item-action" })
+
+                    @Html.ActionLink("Inventory", "Index", "Inventory", null,new {
+                @class = "list-group-item list-group-item-action" })
+
+                    @Html.ActionLink("Purchase Transactions", "In", "Transaction", null,new {
+               @class = "list-group-item list-group-item-action" })
+
+                    @Html.ActionLink("Sales Transactions", "Out", "Transaction", null,new {
+               @class = "list-group-item list-group-item-action" })
+                </div>
+                <div>
+                    @Html.ActionLink("New Transaction", "Create", "Transaction",null, new { @class="mt-2 btn btn-outline-primary" })
+                </div>
+            </div>
+            <div class="col-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("Scritps", false)
+
+</body>
+</html>

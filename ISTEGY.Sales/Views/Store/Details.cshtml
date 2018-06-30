@@ -1,0 +1,62 @@
+﻿@using ISTEGY.Sales.Models
+@model Store
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+
+<div>
+    <h4>Store</h4>
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td><b>@Html.DisplayNameFor(model => model.Title)</b></td>
+            <td>@Html.DisplayFor(model => model.Title)</td>
+        </tr>
+        <tr>
+            <td><b>Products</b></td>
+            <td>
+                <table class="table table-bordered table-striped table-sm">
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Quantity</th>
+                        <th>Options</th>
+                    </tr>
+                    @foreach (Inventory inv in Model.Inventories)
+                    {
+                        <tr>
+                            <td>@inv.ProductId</td>
+                            <td>@inv.Product.Title</td>
+                            <td>@inv.Quantity Items</td>
+                            <td>@Html.ActionLink("Remove", "RemoveProduct", new { id = Model.Id, pid = inv.ProductId })</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+
+        </tr>
+        <tr>
+            <td><b>Add Product</b></td>
+            <td>
+                <div>
+                    <form class="form-inline" method="post" action="/store/addproduct">
+                        @Html.Hidden("id", Model.Id)
+                        <label class="sr-only" for="inlineFormInputName2">Name</label>
+                        @Html.DropDownList("pid", ViewBag.Products as IEnumerable<SelectListItem>, "", new { style = "min-width: 200px;", @class = "form-control mb-2 mr-sm-2" })
+                        <button type="submit" class="btn btn-primary mb-2">Add Product</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b></b></td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Back to List", "Index")
+            </td>
+        </tr>
+    </table>
+</div>

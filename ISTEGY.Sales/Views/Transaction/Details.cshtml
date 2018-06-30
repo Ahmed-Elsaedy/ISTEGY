@@ -1,0 +1,81 @@
+﻿@using ISTEGY.Sales.Models
+@model Transaction
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+<div>
+    <h4>Transaction</h4>
+    <hr />
+    @if (TempData.ContainsKey("msg"))
+    {
+        <div>
+            <p class="mx-5 alert-warning">
+                @TempData["msg"]
+            </p>
+        </div>
+        <hr />
+    }
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td><b>@Html.DisplayNameFor(model => model.VoucherSerial)</b></td>
+            <td>@Html.DisplayFor(model => model.VoucherSerial)</td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(model => model.TransactionDate)</b></td>
+            <td>@Html.DisplayFor(model => model.TransactionDate)</td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(model => model.Store.Title)</b></td>
+            <td>@Html.DisplayFor(model => model.Store.Title)</td>
+        </tr>
+        <tr>
+            <td><b>@Html.DisplayNameFor(model => model.Type)</b></td>
+            <td>@Html.DisplayFor(model => model.Type)</td>
+        </tr>
+        <tr>
+            <td><b>Products</b></td>
+            <td>
+                <table class="table table-bordered table-striped table-sm">
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Options</th>
+                    </tr>
+                    @foreach (TransactionDetail inv in Model.Details)
+                    {
+                        <tr>
+                            <td>@inv.Product.Title</td>
+                            <td>@inv.Quantity Items</td>
+                            <td>@Html.ActionLink("Edit", "EditItem", new { tid = inv.TranId, pid = inv.ProductId }) | @Html.ActionLink("Remove", "RemoveDetail", new { pid = inv.ProductId, tid = inv.TranId })</td>
+                        </tr>
+                    }
+                </table>
+            </td>
+
+        </tr>
+        <tr>
+            <td><b>Add Item</b></td>
+            <td>
+                <div>
+                    <form class="form-inline" method="post" action="/transaction/Details">
+                        @Html.Hidden("id", Model.VoucherSerial)
+                        <label class="sr-only" for="inlineFormInputName2">Name</label>
+                        @Html.DropDownList("pid", ViewBag.Products as IEnumerable<SelectListItem>, "", new { style = "min-width: 200px;", @class = "form-control mb-2 mr-sm-2" })
+                        @Html.TextBox("qnt", 1, new { @class = "form-control mb-2 mr-sm-2" })
+                        <button type="submit" class="btn btn-primary mb-2">Add Item</button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><b></b></td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.VoucherSerial })
+            </td>
+        </tr>
+
+    </table>
+</div>

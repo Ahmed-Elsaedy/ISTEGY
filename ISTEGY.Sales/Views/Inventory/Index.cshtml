@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ISTEGY.Sales.Models.Inventory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Inventory Report</h2>
+<hr />
+<h5>Filters</h5>
+<div class="row">
+    @if (ViewBag.Filter == null || ViewBag.Filter == "store")
+    {
+        <div class="col-5">
+            <form class="form-inline" action="/inventory/index">
+                @Html.Hidden("by", "store")
+                @Html.DropDownList("id", ViewBag.Stores as IEnumerable<SelectListItem>, "", new { @class = "form-control mx-2", style = "min-width: 150px;" })
+                <input type="submit" value="Filter By Store" class="btn btn-outline-primary" />
+            </form>
+        </div>
+    }
+    @if (ViewBag.Filter == null || ViewBag.Filter == "product")
+    {
+        <div class="col-5">
+            <form class="form-inline" action="/inventory/index">
+                @Html.Hidden("by", "product")
+                @Html.DropDownList("id", ViewBag.Products as IEnumerable<SelectListItem>, "", new { @class = "form-control mx-2", style = "min-width: 150px;" })
+                <input type="submit" value="Filter By Product" class="btn btn-outline-primary" />
+            </form>
+        </div>
+    }
+    <div class="col-2">
+        @Html.ActionLink("Clear", "Index", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Store.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td></td>
+        </tr>
+    }
+
+</table>

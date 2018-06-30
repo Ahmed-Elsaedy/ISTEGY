@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ISTEGY.Sales.Models.Transaction>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Out Transactions</h2>
+<hr />
+<h5>Filters</h5>
+<div class="row">
+    <div class="col-5">
+        <form class="form-inline" action="/transaction/in">
+            @Html.DropDownList("storeId", ViewBag.Stores as IEnumerable<SelectListItem>, "", new { @class = "form-control mx-2", style = "min-width: 150px;" })
+            <input type="submit" value="Filter By Store" class="btn btn-outline-primary" />
+        </form>
+    </div>
+    <div class="col-2">
+        @Html.ActionLink("Clear", "In", null, new { @class = "btn btn-primary" })
+    </div>
+</div>
+<hr />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VoucherSerial)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransactionDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Store.Title)
+        </th>
+        <th>Options</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoucherSerial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Store.Title)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.VoucherSerial }) |
+                @Html.ActionLink("Details", "Details", new { id= item.VoucherSerial }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.VoucherSerial })
+            </td>
+        </tr>
+    }
+
+</table>
