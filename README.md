@@ -27,3 +27,8 @@ To start using the application:
 * First change the connection string "DatabaseContext" found in web.config file
 * Update the database using Package Manager Console (Entity Framework) OR Run the included SQL File against a database
 
+******************************************************************************************************************
+----------------------------------------------------------------------------------------------------------------
+Online Link: https://istegy-task.azurewebsites.net/
+----------------------------------------------------------------------------------------------------------------
+******************************************************************************************************************
